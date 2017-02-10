@@ -19,6 +19,9 @@
     <ClCompile Include="App.cpp">
       <Filter>General</Filter>
     </ClCompile>
+    <ClCompile Include="Camera3D.cpp">
+      <Filter>General</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.hpp">
@@ -28,6 +31,9 @@
       <Filter>General</Filter>
     </ClInclude>
     <ClInclude Include="App.hpp">
+      <Filter>General</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera3D.hpp">
       <Filter>General</Filter>
     </ClInclude>
   </ItemGroup>

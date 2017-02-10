@@ -11,6 +11,9 @@
 #include <vector>
 #include <map>
 
+typedef double GLdouble;
+typedef int GLint;
+
 struct Vertex3D_PC {
 	Vector3 pos;
 	Rgba color;
@@ -80,7 +83,12 @@ private:
 	Texture* GetTexture(const std::string& imageFilePath);
 
 
-	std::vector<Texture*> m_alreadyLoadedTextures;
+    
+    std::vector<Texture*> m_alreadyLoadedTextures;
 	//std::map<std::string, BitmapFont*> m_alreadyLoadedFonts;
 	
+public:
+    void renderSolidSphere(GLdouble radius, GLint slices, GLint stacks);
+    void renderWireSphere(GLdouble radius, GLint slices, GLint stacks);
+    void renderAxis(float lenght);
 };
