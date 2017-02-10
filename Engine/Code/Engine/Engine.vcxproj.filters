@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Math">
+      <UniqueIdentifier>{e730f859-3348-4144-b1ac-d56a5d5823d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Math\Vector2.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ErrorWarningAssert.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\StringUtils.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Time.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\MathUtils.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\AABB2.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Math2D.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Disc2.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\LineSegment2.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Rgba.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\IntVector2.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Texture.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\stb\stb_image.c">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\SpriteSheet.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Audio.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector3.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Sphere3.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\AABB3.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\LineSegment3.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\SpriteAnimation.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector4.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Matrix4.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Plane3.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\ConvexHull.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vertex3.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\IntVector3.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\BitmapFont.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Noise.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FileUtilities.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\OpenGLExtensions.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Window.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\InputSystem.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\XboxController.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Config.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RHI\RHIInstance.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RHI\RHIDevice.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RHI\RHIDeviceContext.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RHI\Texture2D.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RHI\RHIOutput.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RHI\DX11.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RHI\ShaderProgram.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RHI\VertexBuffer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RHI\RHISampler.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RHI\Image.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\SimpleRenderer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RHI\RasterState.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RHI\ConstantBuffer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RHI\BlendState.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Font.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Console.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Math\Vector2.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ErrorWarningAssert.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\StringUtils.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Time.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\MathUtils.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Math2D.hpp" />
+    <ClInclude Include="Math\Disc2.hpp" />
+    <ClInclude Include="Math\LineSegment2.hpp" />
+    <ClInclude Include="Core\Rgba.hpp" />
+    <ClInclude Include="Renderer\Renderer.hpp" />
+    <ClInclude Include="Math\IntVector2.hpp" />
+    <ClInclude Include="Renderer\Texture.hpp" />
+    <ClInclude Include="..\ThirdParty\stb\stb_image.h" />
+    <ClInclude Include="Renderer\SpriteSheet.hpp" />
+    <ClInclude Include="Audio\Audio.hpp" />
+    <ClInclude Include="Math\Vector3.hpp" />
+    <ClInclude Include="Math\Sphere3.hpp" />
+    <ClInclude Include="Math\LineSegment3.hpp" />
+    <ClInclude Include="Renderer\SpriteAnimation.hpp" />
+    <ClInclude Include="Math\Matrix4.hpp" />
+    <ClInclude Include="Math\Plane3.hpp" />
+    <ClInclude Include="Math\ConvexHull.hpp" />
+    <ClInclude Include="Math\Vertex3.hpp" />
+    <ClInclude Include="Math\IntVector3.hpp" />
+    <ClInclude Include="Renderer\BitmapFont.hpp" />
+    <ClInclude Include="Core\Noise.hpp" />
+    <ClInclude Include="Core\FileUtilities.hpp" />
+    <ClInclude Include="Renderer\OpenGLExtensions.hpp" />
+    <ClInclude Include="Core\Window.hpp" />
+    <ClInclude Include="Input\InputSystem.hpp" />
+    <ClInclude Include="Input\XboxController.hpp" />
+    <ClInclude Include="Core\Config.hpp" />
+    <ClInclude Include="RHI\RHITypes.hpp" />
+    <ClInclude Include="RHI\RHIInstance.hpp" />
+    <ClInclude Include="RHI\DX11.hpp" />
+    <ClInclude Include="RHI\RHIDevice.hpp" />
+    <ClInclude Include="RHI\RHIDeviceContext.hpp" />
+    <ClInclude Include="RHI\Texture2D.hpp" />
+    <ClInclude Include="RHI\RHIOutput.hpp" />
+    <ClInclude Include="RHI\RHI.h" />
+    <ClInclude Include="RHI\ShaderProgram.hpp" />
+    <ClInclude Include="RHI\VertexBuffer.hpp" />
+    <ClInclude Include="Renderer\SimpleRenderer.hpp" />
+    <ClInclude Include="RHI\RHISampler.hpp" />
+    <ClInclude Include="RHI\Image.hpp" />
+    <ClInclude Include="RHI\RasterState.hpp" />
+    <ClInclude Include="RHI\ConstantBuffer.hpp" />
+    <ClInclude Include="RHI\BlendState.hpp" />
+    <ClInclude Include="Renderer\Font.h" />
+    <ClInclude Include="Math\AABB2.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\AABB3.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Console.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Math\Vector4.hpp" />
+  </ItemGroup>
+</Project>
