@@ -178,6 +178,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Camera3D.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCommon.cpp" />
@@ -190,6 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.hpp" />
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="Camera3D.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameCommon.hpp" />

@@ -5,7 +5,7 @@
 #include "Game/GameCommon.hpp"
 #include "Engine/Input/InputSystem.hpp"
 #include "Game/Camera3D.hpp"
-
+#include "Game/Ball.h"
 
 class Game {
 
@@ -22,4 +22,6 @@ public:
     void UpdatePlayerKeyboardMovement(float deltaSeconds);
     void UpdatePlayerMovement(float deltaSeconds);
     void Render();
+
+	Ball myBall;
 };

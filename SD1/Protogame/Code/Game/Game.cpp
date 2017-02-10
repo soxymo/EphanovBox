@@ -9,6 +9,7 @@ Game::Game(AABB2 theWorldBox) :m_isGamePaused(false)
 ,m_camera(Camera3D(Vector3(-5.f, 0.5f, 0.5f)))
 {
 	m_worldBox = theWorldBox;
+
 }
 
 Game::~Game() {
@@ -18,6 +19,7 @@ Game::~Game() {
 void Game::Update(float deltaSeconds) {
 	
     UpdatePlayerMovement(deltaSeconds);
+	myBall.Update(deltaSeconds);
 
 	if (m_slowMode)
 		deltaSeconds *= 0.1f;
@@ -98,5 +100,8 @@ void Game::Render(){
     g_theRenderer->TranslateDrawFrame3D(m_camera.m_position * -1.f);
 
     g_theRenderer->renderAxis(10.0f);
-    g_theRenderer->renderWireSphere(2.0, 10.0, 10.0);
+
+	myBall.Render();
+
+	
 }
