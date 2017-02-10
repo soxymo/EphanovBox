@@ -42,26 +42,61 @@ AABB2 worldBoundingBox((float)VIEW_LEFT, (float)VIEW_BOTTOM, (float)VIEW_RIGHT, 
 LRESULT CALLBACK WindowsMessageHandlingProcedure(HWND windowHandle, UINT wmMessageCode, WPARAM wParam, LPARAM lParam)
 {
 	unsigned char keyCode = (unsigned char)wParam;
-	switch (wmMessageCode)
-	{
-	case WM_CLOSE:
-	case WM_DESTROY:
-	case WM_QUIT:
-		g_theApp->SetIsQuitting(true);
-		return 0;
+    switch (wmMessageCode)
+    {
+    case WM_CLOSE:
+    case WM_DESTROY:
 
-	case WM_KEYDOWN:
+    case WM_SETFOCUS:
+    {
+        if (g_theInputSystem)
+            g_theInputSystem->OnAppGainedFocus();
+        break;
+    }
 
-		g_theApp->OnKeyDown(keyCode);
+    case WM_KILLFOCUS:
+    {
+        if (g_theInputSystem)
+            g_theInputSystem->OnAppLostFocus();
+        break;
+    }
 
-		break;
+    case WM_KEYDOWN:
+    {
+        g_theApp->OnKeyDown(keyCode);
+        break;
+    }
 
-	case WM_KEYUP:
+    case WM_KEYUP:
+    {
+        g_theApp->OnKeyUp(keyCode);
+        break;
+    }
 
-		g_theApp->OnKeyUp(keyCode);
+    case WM_LBUTTONDOWN:
+    {
+        g_theApp->OnKeyDown(KEY_LMOUSE);
+        break;
+    }
 
-		break;
-	}
+    case WM_RBUTTONDOWN:
+    {
+        g_theApp->OnKeyDown(KEY_RMOUSE);
+        break;
+    }
+
+    case WM_LBUTTONUP:
+    {
+        g_theApp->OnKeyUp(KEY_LMOUSE);
+        break;
+    }
+
+    case WM_RBUTTONUP:
+    {
+        g_theApp->OnKeyUp(KEY_RMOUSE);
+        break;
+    }
+    }
 
 	return DefWindowProc(windowHandle, wmMessageCode, wParam, lParam);
 }

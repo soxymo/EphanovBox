@@ -8,6 +8,7 @@ Game::Game(AABB2 theWorldBox) :m_isGamePaused(false)
 ,m_slowMode(false)
 ,m_camera(Camera3D(Vector3(-5.f, 0.5f, 0.5f)))
 {
+    g_theInputSystem->SetMouseCursorHiddenWHenFocused(true);
 	m_worldBox = theWorldBox;
 }
 
@@ -36,6 +37,26 @@ void Game::Update(float deltaSeconds) {
 // 		DebuggerPrintf("x=%f, y=%f", stickVector.x, stickVector.y);
 // 	}
 }
+
+void Game::UpdatePlayerMouseLook(float deltaSeconds)
+{
+    if (!g_theInputSystem->DoesAppHaveFocus())
+        return; //Don't update player look angle from mouse when in not in focus!
+
+    const float YAW_DEGREES_PER_MOUSE_MOVE = -0.02f;
+    const float PITCH_DEGREES_PER_MOUSE_MOVE = 0.02f;
+
+    Vector2 screenSize = g_theInputSystem->GetScreenSize();
+    const Vector2 mouseRecenterPos = screenSize * 0.5f;
+    Vector2 mouseScreenPos = g_theInputSystem->GetMouseScreenCoords();
+    Vector2 mouseMoveSinceLastFrame = mouseScreenPos - mouseRecenterPos;
+
+    g_theInputSystem->SetMouseCursorPosition(mouseRecenterPos);
+    m_camera.m_yawDegreesAboutZ += YAW_DEGREES_PER_MOUSE_MOVE * mouseMoveSinceLastFrame.x;
+    m_camera.m_pitchDegreesAboutY += PITCH_DEGREES_PER_MOUSE_MOVE * mouseMoveSinceLastFrame.y;
+    m_camera.m_pitchDegreesAboutY = ClampWithin(m_camera.m_pitchDegreesAboutY, -89.9f, 89.9f);
+}
+
 
 void Game::UpdatePlayerKeyboardMovement(float deltaSeconds)
 {
@@ -74,6 +95,7 @@ void Game::UpdatePlayerKeyboardMovement(float deltaSeconds)
 
 void Game::UpdatePlayerMovement(float deltaSeconds)
 {
+    UpdatePlayerMouseLook(deltaSeconds);
     UpdatePlayerKeyboardMovement(deltaSeconds);
 }
 

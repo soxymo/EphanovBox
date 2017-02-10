@@ -19,6 +19,7 @@ public:
 	Game(AABB2 theWorldBox);
 	~Game();
 	void Update(float deltaSeconds);
+    void UpdatePlayerMouseLook(float deltaSeconds);
     void UpdatePlayerKeyboardMovement(float deltaSeconds);
     void UpdatePlayerMovement(float deltaSeconds);
     void Render();
