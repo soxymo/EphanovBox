@@ -624,6 +624,8 @@ void Renderer::renderWireSphere(GLdouble radius, GLint slices, GLint stacks)
 {
     int i, j;
 
+    glColor3f(1.f, 1.f, 1.f);
+
     /* Adjust z and radius as stacks and slices are drawn. */
 
     double r;

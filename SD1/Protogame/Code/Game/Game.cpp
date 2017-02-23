@@ -7,6 +7,11 @@ Game* g_asteroidsGame = nullptr;
 Game::Game(AABB2 theWorldBox) :m_isGamePaused(false)
 ,m_slowMode(false)
 ,m_camera(Camera3D(Vector3(-5.f, 0.5f, 0.5f)))
+,myFloor(Vector3(0.f, 0.f, 1.f), 0)
+,myPosXSide(Vector3(1.f, 0.f, 0.f), 20)
+,myPosYSide(Vector3(0.f, 1.f, 0.f), 20)
+,myNegXSide(Vector3(-1.f, 0.f, 0.f), 20)
+,myNegYSide(Vector3(0.f, -1.f, 0.f), 20)
 {
     g_theInputSystem->SetMouseCursorHiddenWHenFocused(true);
 	m_worldBox = theWorldBox;
@@ -21,6 +26,7 @@ void Game::Update(float deltaSeconds) {
 	
     UpdatePlayerMovement(deltaSeconds);
 	myBall.Update(deltaSeconds);
+    BounceBallOffPlanes(deltaSeconds);
 
 	if (m_slowMode)
 		deltaSeconds *= 0.1f;
@@ -38,6 +44,34 @@ void Game::Update(float deltaSeconds) {
 // 		Vector2 stickVector = xbox.GetStickVector(R_STICK);
 // 		DebuggerPrintf("x=%f, y=%f", stickVector.x, stickVector.y);
 // 	}
+}
+
+void Game::BounceBallOffPlanes(float deltaSeconds)
+{
+    if (!myFloor.IsPointInFront(myBall.sphere.center - Vector3(0, 0, myBall.sphere.radius))) {
+        myBall.sphere.center.z = myBall.sphere.radius;
+        myBall.velocity.z *= -1;
+    }
+
+    if (!myPosXSide.IsPointInFront(myBall.sphere.center - Vector3(myBall.sphere.radius, 0, 0))) {
+        myBall.sphere.center.x = myBall.sphere.radius;
+        myBall.velocity.x *= -1;
+    }
+
+    if (!myPosYSide.IsPointInFront(myBall.sphere.center - Vector3(myBall.sphere.radius, 0, 0))) {
+        myBall.sphere.center.y = myBall.sphere.radius;
+        myBall.velocity.y *= -1;
+    }
+
+    if (!myNegXSide.IsPointInFront(myBall.sphere.center - Vector3(myBall.sphere.radius, 0, 0))) {
+        myBall.sphere.center.x = myBall.sphere.radius;
+        myBall.velocity.x *= -1;
+    }
+
+    if (!myNegYSide.IsPointInFront(myBall.sphere.center - Vector3(myBall.sphere.radius, 0, 0))) {
+        myBall.sphere.center.y = myBall.sphere.radius;
+        myBall.velocity.y *= -1;
+    }
 }
 
 void Game::UpdatePlayerMouseLook(float deltaSeconds)

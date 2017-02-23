@@ -19,10 +19,16 @@ public:
 	Game(AABB2 theWorldBox);
 	~Game();
 	void Update(float deltaSeconds);
+    void BounceBallOffPlanes(float deltaSeconds);
     void UpdatePlayerMouseLook(float deltaSeconds);
     void UpdatePlayerKeyboardMovement(float deltaSeconds);
     void UpdatePlayerMovement(float deltaSeconds);
     void Render();
 
 	Ball myBall;
+    Plane3 myFloor;
+    Plane3 myPosXSide;
+    Plane3 myPosYSide;
+    Plane3 myNegXSide;
+    Plane3 myNegYSide;
 };
