@@ -7,6 +7,7 @@
 class Ball {
 public:
 	Ball();
+	Ball(Vector3 initPosition, Vector3 initVelocity);
 	~Ball() {};
 
 	void Update(float deltaSeconds);

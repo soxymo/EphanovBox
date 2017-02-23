@@ -8,13 +8,16 @@ Game::Game(AABB2 theWorldBox) :m_isGamePaused(false)
 ,m_slowMode(false)
 ,m_camera(Camera3D(Vector3(-5.f, 0.5f, 0.5f)))
 ,myFloor(Vector3(0.f, 0.f, 1.f), 0)
-,myPosXSide(Vector3(1.f, 0.f, 0.f), 20)
-,myPosYSide(Vector3(0.f, 1.f, 0.f), 20)
-,myNegXSide(Vector3(-1.f, 0.f, 0.f), 20)
-,myNegYSide(Vector3(0.f, -1.f, 0.f), 20)
+,myPosXSide(Vector3(1.f, 0.f, 0.f), 10)
+,myPosYSide(Vector3(0.f, 1.f, 0.f), 10)
+,myNegXSide(Vector3(-1.f, 0.f, 0.f), 10)
+,myNegYSide(Vector3(0.f, -1.f, 0.f), 10)
 {
     g_theInputSystem->SetMouseCursorHiddenWHenFocused(true);
 	m_worldBox = theWorldBox;
+	
+	bList.push_back(Ball());
+	bList.push_back(Ball(Vector3(2,3, 1), Vector3(-2, 1, -4)));
 
 }
 
@@ -25,8 +28,13 @@ Game::~Game() {
 void Game::Update(float deltaSeconds) {
 	
     UpdatePlayerMovement(deltaSeconds);
-	myBall.Update(deltaSeconds);
-    BounceBallOffPlanes(deltaSeconds);
+	for (unsigned int i = 0; i < bList.size(); i++) {
+
+		bList[i].Update(deltaSeconds);
+		BounceBallOffPlanes(deltaSeconds, bList[i]);
+	}
+
+	BouncOffBalls(bList[0], bList[1]);
 
 	if (m_slowMode)
 		deltaSeconds *= 0.1f;
@@ -46,32 +54,39 @@ void Game::Update(float deltaSeconds) {
 // 	}
 }
 
-void Game::BounceBallOffPlanes(float deltaSeconds)
+void Game::BounceBallOffPlanes(float deltaSeconds, Ball& myBall)
 {
-    if (!myFloor.IsPointInFront(myBall.sphere.center - Vector3(0, 0, myBall.sphere.radius))) {
+    if (!myFloor.RealIsPointInFront(myBall.sphere.center - Vector3(0, 0, myBall.sphere.radius))) {
         myBall.sphere.center.z = myBall.sphere.radius;
         myBall.velocity.z *= -1;
     }
 
-    if (!myPosXSide.IsPointInFront(myBall.sphere.center - Vector3(myBall.sphere.radius, 0, 0))) {
-        myBall.sphere.center.x = myBall.sphere.radius;
+    if (!myPosXSide.RealIsPointInFront(myBall.sphere.center + Vector3(myBall.sphere.radius, 0, 0))) {
+        //myBall.sphere.center.x = myBall.sphere.radius;
         myBall.velocity.x *= -1;
     }
 
-    if (!myPosYSide.IsPointInFront(myBall.sphere.center - Vector3(myBall.sphere.radius, 0, 0))) {
-        myBall.sphere.center.y = myBall.sphere.radius;
-        myBall.velocity.y *= -1;
-    }
+	 if (!myPosYSide.RealIsPointInFront(myBall.sphere.center + Vector3(0, myBall.sphere.radius, 0))) {
+		 //myBall.sphere.center.y = myBall.sphere.radius;
+		 myBall.velocity.y *= -1;
+	 }
 
-    if (!myNegXSide.IsPointInFront(myBall.sphere.center - Vector3(myBall.sphere.radius, 0, 0))) {
-        myBall.sphere.center.x = myBall.sphere.radius;
-        myBall.velocity.x *= -1;
-    }
+	 if (!myNegXSide.RealIsPointInFront(myBall.sphere.center - Vector3(myBall.sphere.radius, 0, 0))) {
+		 //myBall.sphere.center.x = myBall.sphere.radius;
+		 myBall.velocity.x *= -1;
+	 }
 
-    if (!myNegYSide.IsPointInFront(myBall.sphere.center - Vector3(myBall.sphere.radius, 0, 0))) {
-        myBall.sphere.center.y = myBall.sphere.radius;
-        myBall.velocity.y *= -1;
-    }
+	 if (!myNegYSide.RealIsPointInFront(myBall.sphere.center - Vector3( 0, myBall.sphere.radius, 0))) {
+		 //myBall.sphere.center.y = myBall.sphere.radius;
+		 myBall.velocity.y *= -1;
+	 }
+}
+
+void Game::BouncOffBalls(Ball& ball1, Ball& ball2) {
+	if (DoSpheresOverlap(ball1.sphere, ball2.sphere)) {
+		ball1.velocity *= -1;
+		ball2.velocity *= -1;
+	}
 }
 
 void Game::UpdatePlayerMouseLook(float deltaSeconds)
@@ -157,7 +172,9 @@ void Game::Render(){
 
     g_theRenderer->renderAxis(10.0f);
 
-	myBall.Render();
+	for (unsigned int i = 0; i < bList.size(); i++) {
+		bList[i].Render();
+	}
 
 	
 }

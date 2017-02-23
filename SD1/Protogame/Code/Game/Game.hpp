@@ -6,6 +6,8 @@
 #include "Engine/Input/InputSystem.hpp"
 #include "Game/Camera3D.hpp"
 #include "Game/Ball.h"
+#include <iostream>
+#include <vector>
 
 class Game {
 
@@ -19,13 +21,15 @@ public:
 	Game(AABB2 theWorldBox);
 	~Game();
 	void Update(float deltaSeconds);
-    void BounceBallOffPlanes(float deltaSeconds);
+    void BounceBallOffPlanes(float deltaSeconds, Ball& myBall);
+	void BouncOffBalls(Ball& ball1, Ball& ball2);
     void UpdatePlayerMouseLook(float deltaSeconds);
     void UpdatePlayerKeyboardMovement(float deltaSeconds);
     void UpdatePlayerMovement(float deltaSeconds);
     void Render();
 
-	Ball myBall;
+
+	std::vector<Ball> bList;
     Plane3 myFloor;
     Plane3 myPosXSide;
     Plane3 myPosYSide;

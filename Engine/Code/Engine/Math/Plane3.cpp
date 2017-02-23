@@ -16,6 +16,10 @@ bool Plane3::IsPointOnPlane(Vector3 point) const {
 	return DotProduct(point, m_normal) == -m_distToOrigin;
 }
 
+bool Plane3::RealIsPointInFront(Vector3 point) const {
+	return DotProduct(point, m_normal) > m_distToOrigin;
+}
+
 bool Plane3::DoesSphereIntersectPlane(Sphere3 sphere) const {
 	float pointDistanceToOrigin = DotProduct(sphere.center, m_normal);
 	return fabs(pointDistanceToOrigin) <= m_distToOrigin + sphere.radius;

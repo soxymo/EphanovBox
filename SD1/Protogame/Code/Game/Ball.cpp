@@ -5,10 +5,17 @@
 
 Ball::Ball()
 {
-	sphere.center.SetXYZ(0, 0, 10);
+	sphere.center.SetXYZ(5, 5, 5);
 	sphere.radius = 2.f;
-	velocity.SetXYZ(2, 2, 0);
+	velocity.SetXYZ(-6, -4, 0);
 
+}
+
+Ball::Ball(Vector3 initPosition, Vector3 initVelocity)
+	:velocity(initVelocity)
+{
+	sphere.center = initPosition;
+	sphere.radius = 2.f;
 }
 
 void Ball::Update(float deltaSeconds) {
