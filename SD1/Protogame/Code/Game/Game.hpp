@@ -8,6 +8,7 @@
 #include "Game/Ball.h"
 #include <iostream>
 #include <vector>
+#include "Game/SpringForce.hpp"
 
 class Game {
 
@@ -21,7 +22,7 @@ public:
 	Game(AABB2 theWorldBox);
 	~Game();
 	void Update(float deltaSeconds);
-    void BounceBallOffPlanes(float deltaSeconds, Ball& myBall);
+    void BounceBallOffPlanes(float deltaSeconds, Ball* myBall);
 	void BouncOffBalls(Ball& ball1, Ball& ball2);
     void UpdatePlayerMouseLook(float deltaSeconds);
     void UpdatePlayerKeyboardMovement(float deltaSeconds);
@@ -29,7 +30,12 @@ public:
     void Render();
 
 
-	std::vector<Ball> bList;
+	SpringForce spring;
+	std::vector<Ball*> bList;
+
+	Ball completelyIsolatedBall;
+	
+	
     Plane3 myFloor;
     Plane3 myPosXSide;
     Plane3 myPosYSide;

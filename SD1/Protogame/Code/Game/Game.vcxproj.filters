@@ -25,6 +25,9 @@
     <ClCompile Include="Ball.cpp">
       <Filter>General</Filter>
     </ClCompile>
+    <ClCompile Include="SpringForce.cpp">
+      <Filter>General</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.hpp">
@@ -40,6 +43,9 @@
       <Filter>General</Filter>
     </ClInclude>
     <ClInclude Include="Ball.h">
+      <Filter>General</Filter>
+    </ClInclude>
+    <ClInclude Include="SpringForce.hpp">
       <Filter>General</Filter>
     </ClInclude>
   </ItemGroup>

@@ -8,16 +8,17 @@ Game::Game(AABB2 theWorldBox) :m_isGamePaused(false)
 ,m_slowMode(false)
 ,m_camera(Camera3D(Vector3(-5.f, 0.5f, 0.5f)))
 ,myFloor(Vector3(0.f, 0.f, 1.f), 0)
-,myPosXSide(Vector3(1.f, 0.f, 0.f), 10)
-,myPosYSide(Vector3(0.f, 1.f, 0.f), 10)
-,myNegXSide(Vector3(-1.f, 0.f, 0.f), 10)
-,myNegYSide(Vector3(0.f, -1.f, 0.f), 10)
+,myPosXSide(Vector3(1.f, 0.f, 0.f), 40)
+,myPosYSide(Vector3(0.f, 1.f, 0.f), 40)
+,myNegXSide(Vector3(-1.f, 0.f, 0.f), 0)
+,myNegYSide(Vector3(0.f, -1.f, 0.f), 0)
+,spring(Vector3(20,20,10), Vector3(5,5,5), 1.f, 3.f)
 {
     g_theInputSystem->SetMouseCursorHiddenWHenFocused(true);
 	m_worldBox = theWorldBox;
 	
-	bList.push_back(Ball());
-	bList.push_back(Ball(Vector3(2,2, 8), Vector3(-2, -1, 0)));
+	bList.push_back(new Ball(Vector3(4, 4, 5), Vector3(2, -5, 1)));
+	bList.push_back(new Ball(Vector3(2,2, 8), Vector3(0, 3, 7)));
 
 }
 
@@ -28,13 +29,27 @@ Game::~Game() {
 void Game::Update(float deltaSeconds) {
 	
     UpdatePlayerMovement(deltaSeconds);
+
+	//Vector3 force = spring.ComputeForce(bList[0]->sphere.center, spring.line.start);
+	//bList[0]->SetVelocity(bList[0]->GetVelocity() + force*deltaSeconds);
+	
+	
+
+
 	for (unsigned int i = 0; i < bList.size(); i++) {
 
-		bList[i].Update(deltaSeconds);
+		bList[i]->Update(deltaSeconds);
 		BounceBallOffPlanes(deltaSeconds, bList[i]);
 	}
 
-	BouncOffBalls(bList[0], bList[1]);
+	completelyIsolatedBall.Update(deltaSeconds);
+	BounceBallOffPlanes(deltaSeconds, &completelyIsolatedBall);
+
+	spring.line.end = bList[0]->sphere.center;
+
+
+	//BouncOffBalls(bList[0], bList[1]);
+	
 
 	if (m_slowMode)
 		deltaSeconds *= 0.1f;
@@ -54,32 +69,31 @@ void Game::Update(float deltaSeconds) {
 // 	}
 }
 
-void Game::BounceBallOffPlanes(float deltaSeconds, Ball& myBall)
+void Game::BounceBallOffPlanes(float deltaSeconds, Ball* myBall)
 {
-    if (!myFloor.RealIsPointInFront(myBall.sphere.center - Vector3(0, 0, myBall.sphere.radius))) {
-        myBall.sphere.center.z = myBall.sphere.radius;
-        myBall.velocity.z *= -1;
-		myBall.velocity.z *= .9f;
+    if (!myFloor.RealIsPointInFront(myBall->sphere.center - Vector3(0, 0, myBall->sphere.radius))) {
+        myBall->sphere.center.z = myBall->sphere.radius;
+		myBall->ScaleVelocity(Vector3(1.f, 1.f, -1.f));
     }
 
-    if (!myPosXSide.RealIsPointInFront(myBall.sphere.center + Vector3(myBall.sphere.radius, 0, 0))) {
-        myBall.sphere.center.x = myPosXSide.m_distToOrigin - myBall.sphere.radius;
-        myBall.velocity.x *= -1;
+    if (myPosXSide.RealIsPointInFront(myBall->sphere.center + Vector3(myBall->sphere.radius, 0, 0))) {
+        //myBall.sphere.center.x = myPosXSide.m_distToOrigin - myBall.sphere.radius;
+		myBall->ScaleVelocity(Vector3(-1.f, 1.f, 1.f));
     }
 
-	 if (!myPosYSide.RealIsPointInFront(myBall.sphere.center + Vector3(0, myBall.sphere.radius, 0))) {
+	 if (myPosYSide.RealIsPointInFront(myBall->sphere.center + Vector3(0, myBall->sphere.radius, 0))) {
 		 //myBall.sphere.center.y = myPosYSide.m_distToOrigin - myBall.sphere.radius;
-		 myBall.velocity.y *= -1;
+		 myBall->ScaleVelocity(Vector3(1.f, -1.f, 1.f));
 	 }
 
-	 if (!myNegXSide.RealIsPointInFront(myBall.sphere.center - Vector3(myBall.sphere.radius, 0, 0))) {
+	 if (myNegXSide.RealIsPointInFront(myBall->sphere.center - Vector3(myBall->sphere.radius, 0, 0))) {
 		 //myBall.sphere.center.x = -1.f*myNegXSide.m_distToOrigin + myBall.sphere.radius;
-		 myBall.velocity.x *= -1;
+		 myBall->ScaleVelocity(Vector3(-1.f, 1.f, 1.f));
 	 }
 
-	 if (!myNegYSide.RealIsPointInFront(myBall.sphere.center - Vector3( 0, myBall.sphere.radius, 0))) {
+	 if (myNegYSide.RealIsPointInFront(myBall->sphere.center - Vector3( 0, myBall->sphere.radius, 0))) {
 		 //myBall.sphere.center.y = -1.f* myNegYSide.m_distToOrigin + myBall.sphere.radius;
-		 myBall.velocity.y *= -1;
+		 myBall->ScaleVelocity(Vector3(1.f, -1.f, 1.f));
 	 }
 }
 
@@ -97,12 +111,14 @@ void Game::BouncOffBalls(Ball& ball1, Ball& ball2) {
 	Vector3 firstPositionCorrection = directionFromFirstToSecond * (-0.5f * overlapDistance);
 	ball2.sphere.center -= firstPositionCorrection;
 	ball1.sphere.center += firstPositionCorrection;
-	float speedTowardSecond = DotProduct(ball1.velocity, directionFromFirstToSecond);
+	float speedTowardSecond = DotProduct(ball1.GetVelocity(), directionFromFirstToSecond);
 	if (speedTowardSecond > 0.f) {
 		Vector3 velocityTowardSecond = speedTowardSecond * directionFromFirstToSecond;
-		Vector3 velocityNotTowardSecond = ball1.velocity - directionFromFirstToSecond;
-		ball1.velocity = ((-1.f * (ball1.elasticity * ball2.elasticity)) * velocityTowardSecond) + velocityNotTowardSecond;
-		ball2.velocity = ((ball1.elasticity * ball2.elasticity) * velocityTowardSecond) + velocityNotTowardSecond;
+		Vector3 velocityNotTowardSecond = ball1.GetVelocity() - directionFromFirstToSecond;
+		Vector3 ball1velocity = ((-1.f * (ball1.elasticity * ball2.elasticity)) * velocityTowardSecond) + velocityNotTowardSecond;
+		Vector3 ball2velocity = ((ball1.elasticity * ball2.elasticity) * velocityTowardSecond) + velocityNotTowardSecond;
+		ball1.SetVelocity(ball1velocity);
+		ball2.SetVelocity(ball2velocity);
 	}
 
 
@@ -215,10 +231,13 @@ void Game::Render(){
     g_theRenderer->TranslateDrawFrame3D(m_camera.m_position * -1.f);
 
     g_theRenderer->renderAxis(10.0f);
+	spring.Render();
 
 	for (unsigned int i = 0; i < bList.size(); i++) {
-		bList[i].Render();
+		bList[i]->Render();
 	}
+
+	completelyIsolatedBall.Render();
 
 	
 }

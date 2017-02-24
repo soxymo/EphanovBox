@@ -9,12 +9,20 @@ public:
 	Ball();
 	Ball(Vector3 initPosition, Vector3 initVelocity);
 	~Ball() {};
+	Vector3 GetVelocity();
+	void SetVelocity(Vector3 newVelocity);
+	void ScaleVelocity(Vector3 scaleVec);
+	
 
 	void Update(float deltaSeconds);
 	void Render() const;
 
 	Sphere3 sphere;
-	Vector3 velocity;
 	float elasticity;
+
+
+private:
+	Vector3 velocity;
+	
 
 };
