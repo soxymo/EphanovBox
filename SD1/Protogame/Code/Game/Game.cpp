@@ -17,7 +17,7 @@ Game::Game(AABB2 theWorldBox) :m_isGamePaused(false)
 	m_worldBox = theWorldBox;
 	
 	bList.push_back(Ball());
-	bList.push_back(Ball(Vector3(2,3, 1), Vector3(-2, 1, -4)));
+	bList.push_back(Ball(Vector3(2,2, 8), Vector3(-2, -1, 0)));
 
 }
 
@@ -59,34 +59,76 @@ void Game::BounceBallOffPlanes(float deltaSeconds, Ball& myBall)
     if (!myFloor.RealIsPointInFront(myBall.sphere.center - Vector3(0, 0, myBall.sphere.radius))) {
         myBall.sphere.center.z = myBall.sphere.radius;
         myBall.velocity.z *= -1;
+		myBall.velocity.z *= .9f;
     }
 
     if (!myPosXSide.RealIsPointInFront(myBall.sphere.center + Vector3(myBall.sphere.radius, 0, 0))) {
-        //myBall.sphere.center.x = myBall.sphere.radius;
+        myBall.sphere.center.x = myPosXSide.m_distToOrigin - myBall.sphere.radius;
         myBall.velocity.x *= -1;
     }
 
 	 if (!myPosYSide.RealIsPointInFront(myBall.sphere.center + Vector3(0, myBall.sphere.radius, 0))) {
-		 //myBall.sphere.center.y = myBall.sphere.radius;
+		 //myBall.sphere.center.y = myPosYSide.m_distToOrigin - myBall.sphere.radius;
 		 myBall.velocity.y *= -1;
 	 }
 
 	 if (!myNegXSide.RealIsPointInFront(myBall.sphere.center - Vector3(myBall.sphere.radius, 0, 0))) {
-		 //myBall.sphere.center.x = myBall.sphere.radius;
+		 //myBall.sphere.center.x = -1.f*myNegXSide.m_distToOrigin + myBall.sphere.radius;
 		 myBall.velocity.x *= -1;
 	 }
 
 	 if (!myNegYSide.RealIsPointInFront(myBall.sphere.center - Vector3( 0, myBall.sphere.radius, 0))) {
-		 //myBall.sphere.center.y = myBall.sphere.radius;
+		 //myBall.sphere.center.y = -1.f* myNegYSide.m_distToOrigin + myBall.sphere.radius;
 		 myBall.velocity.y *= -1;
 	 }
 }
 
 void Game::BouncOffBalls(Ball& ball1, Ball& ball2) {
-	if (DoSpheresOverlap(ball1.sphere, ball2.sphere)) {
-		ball1.velocity *= -1;
-		ball2.velocity *= -1;
+
+	if (!DoSpheresOverlap(ball1.sphere, ball2.sphere)) {
+		return;
 	}
+
+	Vector3 displacementFromFirstToSecond = ball2.sphere.center - ball1.sphere.center;
+	Vector3 directionFromFirstToSecond = displacementFromFirstToSecond;
+	directionFromFirstToSecond.Normalize();
+	float distance = displacementFromFirstToSecond.CalcLength();
+	float overlapDistance = (ball1.sphere.radius + ball2.sphere.radius) - distance;
+	Vector3 firstPositionCorrection = directionFromFirstToSecond * (-0.5f * overlapDistance);
+	ball2.sphere.center -= firstPositionCorrection;
+	ball1.sphere.center += firstPositionCorrection;
+	float speedTowardSecond = DotProduct(ball1.velocity, directionFromFirstToSecond);
+	if (speedTowardSecond > 0.f) {
+		Vector3 velocityTowardSecond = speedTowardSecond * directionFromFirstToSecond;
+		Vector3 velocityNotTowardSecond = ball1.velocity - directionFromFirstToSecond;
+		ball1.velocity = ((-1.f * (ball1.elasticity * ball2.elasticity)) * velocityTowardSecond) + velocityNotTowardSecond;
+		ball2.velocity = ((ball1.elasticity * ball2.elasticity) * velocityTowardSecond) + velocityNotTowardSecond;
+	}
+
+
+
+	/*if (!DoDisc2DsOverlap(ball1->m_disc, ball2->m_disc))
+		return;
+
+	Vector2 displacementFromFirstToSecond = ball2->m_disc.center - ball1->m_disc.center;
+	Vector2 directionFromFirstToSecond = displacementFromFirstToSecond;
+	directionFromFirstToSecond.Normalize();
+	float distance = displacementFromFirstToSecond.CalcLength();
+	float overlapDistance = (ball1->m_disc.radius + ball2->m_disc.radius) - distance;
+	Vector2 firstPositionCorrection = directionFromFirstToSecond * (-0.5f * overlapDistance);
+	ball2->m_disc.center -= firstPositionCorrection;
+	ball1->m_disc.center += firstPositionCorrection;
+	float speedTowardSecond = DotProduct(ball1->m_velocity, directionFromFirstToSecond);
+	if (speedTowardSecond > 0.f)
+	{
+		Vector2 velocityTowardSecond = speedTowardSecond * directionFromFirstToSecond;
+		Vector2 velocityNotTowardsSecond = ball1->m_velocity - directionFromFirstToSecond;
+		//ball1->m_velocity = (-0.8f * velocityTowardSecond) + velocityNotTowardsSecond;
+		ball1->m_velocity = ((-1.f * (ball1->m_elasticity * ball2->m_elasticity)) * velocityTowardSecond) + velocityNotTowardsSecond;
+		//ball2->m_velocity = (0.8f * velocityTowardSecond) + velocityNotTowardsSecond;
+		ball2->m_velocity = ((ball1->m_elasticity * ball2->m_elasticity) * velocityTowardSecond) + velocityNotTowardsSecond;
+	}*/
+
 }
 
 void Game::UpdatePlayerMouseLook(float deltaSeconds)
@@ -120,8 +162,10 @@ void Game::UpdatePlayerKeyboardMovement(float deltaSeconds)
     if (g_theInputSystem->IsKeyDown(' '))
         moveDirectionThisFrame.z += 1.0f;
 
-    if (g_theInputSystem->IsKeyDown('Z'))
+    if (g_theInputSystem->IsKeyDown('Q'))
         moveDirectionThisFrame.z -= 1.0f;
+	if (g_theInputSystem->IsKeyDown('E'))
+		moveDirectionThisFrame.z += 1.0f;
 
     if (g_theInputSystem->IsKeyDown('W'))
         moveDirectionThisFrame += cameraForwardXY;

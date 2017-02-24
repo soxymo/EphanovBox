@@ -15,5 +15,6 @@ public:
 
 	Sphere3 sphere;
 	Vector3 velocity;
+	float elasticity;
 
 };
