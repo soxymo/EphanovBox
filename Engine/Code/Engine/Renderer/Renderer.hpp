@@ -89,6 +89,6 @@ private:
 	
 public:
     void renderSolidSphere(GLdouble radius, GLint slices, GLint stacks);
-    void renderWireSphere(GLdouble radius, GLint slices, GLint stacks);
+    void renderWireSphere(GLdouble radius, GLint slices, GLint stacks, Rgba color);
     void renderAxis(float lenght);
 };

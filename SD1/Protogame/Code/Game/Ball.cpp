@@ -1,14 +1,18 @@
 #include "Game/Ball.h"
 #include "Game/GameCommon.hpp"
 #include "Engine/Renderer/Renderer.hpp"
+#include "Engine/Math/MathUtils.hpp"
+#include "Engine/Core/Rgba.hpp"
 
 
 Ball::Ball()
 {
-	sphere.center.SetXYZ(5, 0, 0);
+	sphere.center.SetXYZ(GetRandomFloatInRange(2.f, 18.f), GetRandomFloatInRange(2.f, 18.f), GetRandomFloatInRange(5, 30));
 	sphere.radius = 2.f;
-	velocity.SetXYZ(-6, 4, 0);
-	elasticity = .5f;
+	velocity.SetXYZ(GetRandomFloatInRange(-3, -3), GetRandomFloatInRange(-3, -3), GetRandomFloatInRange(-2, -1));
+	elasticity = .8f;
+	//GetRandomFloatInRange(-3, -3)
+		
 
 }
 
@@ -17,7 +21,7 @@ Ball::Ball(Vector3 initPosition, Vector3 initVelocity)
 {
 	sphere.center = initPosition;
 	sphere.radius = 2.f;
-	elasticity = .5f;
+	elasticity = .8f;
 }
 
 Vector3 Ball::GetVelocity()
@@ -41,9 +45,16 @@ void Ball::Update(float deltaSeconds) {
 	sphere.center += velocity*deltaSeconds;
 }
 
-void Ball::Render() const{
-	g_theRenderer->TranslateDrawFrame3D(sphere.center);
-	g_theRenderer->renderWireSphere(sphere.radius+.3f, 10, 10);
+void Ball::Render(bool chosenOne) const
+{
 	g_theRenderer->PushDrawFrame();
+	g_theRenderer->TranslateDrawFrame3D(sphere.center);
+	if (chosenOne){
+		g_theRenderer->renderWireSphere(sphere.radius + .3f, 10, 10, Rgba(.5f, 1.f, .5f, 1.f));
+	}
+	else {
+		g_theRenderer->renderWireSphere(sphere.radius + .3f, 10, 10, Rgba());
+	}
+	g_theRenderer->PopDrawFrame();
 }
 

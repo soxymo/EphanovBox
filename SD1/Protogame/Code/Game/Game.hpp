@@ -23,17 +23,17 @@ public:
 	~Game();
 	void Update(float deltaSeconds);
     void BounceBallOffPlanes(float deltaSeconds, Ball* myBall);
-	void BouncOffBalls(Ball& ball1, Ball& ball2);
+	void BouncOffBalls(Ball* ball1, Ball* ball2);
     void UpdatePlayerMouseLook(float deltaSeconds);
     void UpdatePlayerKeyboardMovement(float deltaSeconds);
     void UpdatePlayerMovement(float deltaSeconds);
     void Render();
 
-
+	Ball* completelyIsolatedBall;
 	SpringForce spring;
 	std::vector<Ball*> bList;
 
-	Ball completelyIsolatedBall;
+	
 	
 	
     Plane3 myFloor;
@@ -41,4 +41,5 @@ public:
     Plane3 myPosYSide;
     Plane3 myNegXSide;
     Plane3 myNegYSide;
+	Plane3 myCeiling;
 };

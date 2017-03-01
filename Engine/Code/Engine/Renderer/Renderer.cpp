@@ -620,11 +620,13 @@ void Renderer::renderSolidSphere(GLdouble radius, GLint slices, GLint stacks)
 /*
 * Draws a solid sphere
 */
-void Renderer::renderWireSphere(GLdouble radius, GLint slices, GLint stacks)
+void Renderer::renderWireSphere(GLdouble radius, GLint slices, GLint stacks, Rgba color)
 {
     int i, j;
 
-    glColor3f(1.f, 1.f, 1.f);
+	float red, g, b, a;
+	color.GetAsFloats(red, g, b, a);
+    glColor3f(red, g, b);
 
     /* Adjust z and radius as stacks and slices are drawn. */
 

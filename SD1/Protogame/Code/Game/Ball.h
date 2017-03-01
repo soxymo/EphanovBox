@@ -15,7 +15,7 @@ public:
 	
 
 	void Update(float deltaSeconds);
-	void Render() const;
+	void Render(bool chosenOne) const;
 
 	Sphere3 sphere;
 	float elasticity;
